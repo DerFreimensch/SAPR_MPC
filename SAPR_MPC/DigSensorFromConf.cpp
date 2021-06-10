@@ -1,5 +1,4 @@
 #include "pch.h"
-#include <list>
 #include <fstream>
 #include <string>
 #include "DigSensorFromConf.h"
@@ -30,6 +29,7 @@ void readfile(CString &NameConfig) {
 			if (SensorDescribe(line)) WriteFlag = true;
 		}
 	}
+	printToRtf(DigSensorArray);
 }
 
 bool SensorDescribe(std::string &line) {
@@ -58,11 +58,11 @@ std::string CDigSensor::NameFind(std::string &line) {
 	return line.substr(pos_1, pos_2-pos_1);
 }
 std::string CDigSensor::TypeFind(std::string &line) {
-	int pos_1, pos_1_1;
-	pos_1_1  = line.find("//") + 3;
-	pos_1 = line.find(": ", pos_1_1) + 2;
-	if (pos_1 == -1) pos_1 = line.find_first_of(" ", pos_1_1) + 1;
-	return line.substr(pos_1);
+	int pos_1, pos_2;
+	pos_1 = line.find("//") + 3;
+	pos_2 = line.find(": ", pos_1);
+	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
+	return line.substr(pos_2+1);
 }
 void CDigSensor::NumberWrite(int NewID) {
 	ID = NewID;
@@ -81,6 +81,18 @@ bool IsNotGap(CDigSensor &Prev, CDigSensor &Next) {
 int CDigSensor::GetID() const{
 	return this->ID;
 }
+int CDigSensor::GetNum_1() const {
+	return this->numOfSensor_1;
+}
+int CDigSensor::GetNum_2() const {
+	return this->numOfSensor_2;
+}
+std::string CDigSensor::GetName()const {
+	return this->Name_obj;
+}
+std::string CDigSensor::GetType() const {
+	return this->Type_obj;
+}
 CDigSensor::CDigSensor(int NewID) : Name_obj(" "), Type_obj(" ") {
 	ID = NewID;
 	numOfSensor_1 = ID * 2 - 2;
@@ -93,4 +105,36 @@ CDigSensor::CDigSensor() : Name_obj(" "), Type_obj(" ") {
 }
 int MakeNumber(char c) {
 	return (int)c - 48;
+}
+
+void printToRtf(std::list<CDigSensor> &DigSensorArray) {
+	std::ofstream output("C:\\Users\\MKD\\Desktop\\САПР\\config to rtf\\SAPR_MPC.rtf");
+	output << "{\\rtf1 \n \\par ";
+	output << "{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\b Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ (Белорусская)\\par}" << std::endl;
+	output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ";
+	output << "№";
+	output << " \\cell \\pard \\intbl ";
+	output << "Название объекта";
+	output << " \\cell \\pard  \\intbl ";
+	output << "Тип объекта";
+	output << " \\cell \\pard  \\intbl ";
+	output << "Номер датчика в массиве";
+	output << " \\cell \\pard  \\intbl \\row \n";
+	for (const auto &elem : DigSensorArray) { //для всех элементов из 
+		if (elem.GetID() == 0) continue;
+		output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx8536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ";
+		output << elem.GetID();
+		output << " \\cell \\pard \\intbl ";
+		output << elem.GetName();
+		output << " \\cell \\pard  \\intbl ";
+		output << elem.GetType();
+		output << " \\cell \\pard  \\intbl ";
+		output << elem.GetNum_1();
+		output << " \\cell \\pard  \\intbl ";
+		output << elem.GetNum_2();
+		output << " \\cell \\pard  \\intbl \\row \n";
+	}
+	output << "\\pard }";
+	output.close();
+	ShellExecute(0, L"open", L"C:\\Users\\MKD\\Desktop\\САПР\\config to rtf\\SAPR_MPC.rtf", 0, L"", SW_SHOW);
 }
