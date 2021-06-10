@@ -7,6 +7,7 @@
 #include "SAPR_MPC.h"
 #include "SAPR_MPCDlg.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -25,7 +26,7 @@ CSAPR_MPCApp::CSAPR_MPCApp()
 {
 	// поддержка диспетчера перезагрузки
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
-
+	setlocale(LC_ALL, "Russian");
 	// TODO: добавьте код создания,
 	// Размещает весь важный код инициализации в InitInstance
 }

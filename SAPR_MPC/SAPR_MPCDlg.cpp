@@ -7,6 +7,7 @@
 #include "SAPR_MPC.h"
 #include "SAPR_MPCDlg.h"
 #include "afxdialogex.h"
+#include "DigSensorFromConf.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -59,12 +60,14 @@ CSAPRMPCDlg::CSAPRMPCDlg(CWnd* pParent /*=nullptr*/)
 void CSAPRMPCDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_BUTTON1, make_button);
 }
 
 BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON1, &CSAPRMPCDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -153,3 +156,11 @@ HCURSOR CSAPRMPCDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CSAPRMPCDlg::OnBnClickedButton1()
+{
+	CString config = L"C:\\Users\\MKD\\Desktop\\САПР\\Передача в МПЦ\\Метро КЛ\\Белорусская\\discret.txt";
+	readfile(config);
+	// TODO: добавьте свой код обработчика уведомлений
+}
