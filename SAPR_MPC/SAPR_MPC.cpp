@@ -41,6 +41,9 @@ CSAPR_MPCApp theApp;
 
 BOOL CSAPR_MPCApp::InitInstance()
 {
+
+	//AfxGetApp()->GetMainWnd()->SetWindowTextW(L"САПР МПЦ");
+	
 	// InitCommonControlsEx() требуется для Windows XP, если манифест
 	// приложения использует ComCtl32.dll версии 6 или более поздней версии для включения
 	// стилей отображения.  В противном случае будет возникать сбой при создании любого окна.

@@ -53,14 +53,18 @@ END_MESSAGE_MAP()
 
 CSAPRMPCDlg::CSAPRMPCDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_SAPR_MPC_DIALOG, pParent)
+	, config(_T(""))
+	, rtf(_T(""))
+	, station(_T(""))
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
 
 void CSAPRMPCDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_BUTTON1, make_button);
+
 }
 
 BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
@@ -68,6 +72,7 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CSAPRMPCDlg::OnBnClickedButton1)
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 
@@ -159,8 +164,23 @@ HCURSOR CSAPRMPCDlg::OnQueryDragIcon()
 
 
 void CSAPRMPCDlg::OnBnClickedButton1()
-{
-	CString config = L"C:\\Users\\MKD\\Desktop\\САПР\\Передача в МПЦ\\Метро КЛ\\Белорусская\\discret.txt";
-	readfile(config);
+{	
+	UpdateData(TRUE);
+	readfile(config, rtf, station);
+	UpdateData(FALSE);
 	// TODO: добавьте свой код обработчика уведомлений
 }
+
+
+
+
+int CSAPRMPCDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
+		return -1;
+	// TODO:  Добавьте специализированный код создания
+	SetWindowText(L"САПР передачи в МПЦ-ЭЛ");
+	return 0;
+}
+
+

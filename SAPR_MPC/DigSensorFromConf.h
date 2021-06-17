@@ -7,6 +7,7 @@ public:
 	int GetID() const;
 	int GetNum_1() const;
 	int GetNum_2() const;
+	std::string simpleMake(std::string &line);
 	std::string GetName() const;
 	std::string GetType() const;
 	CDigSensor(int NewID);
@@ -22,8 +23,8 @@ private:
 	std::string  Name_obj, Type_obj;
 };
 
-void readfile(CString &NameConfig);
+void readfile(CString &NameConfig, CString &NameRTF, CString &station);
 bool SensorDescribe(std::string &line);
 bool IsNotGap(CDigSensor &Prev, CDigSensor &Next);
 int MakeNumber(char c);
-void printToRtf(std::list<CDigSensor> &DigSensorArray);
+void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString &station);

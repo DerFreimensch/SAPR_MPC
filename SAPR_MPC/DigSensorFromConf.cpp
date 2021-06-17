@@ -8,7 +8,7 @@
 std::list<CDigSensor>DigSensorArray;
 
 
-void readfile(CString &NameConfig) {
+void readfile(CString &NameConfig, CString &NameRTF, CString &station) {
 	bool WriteFlag = false;
 	setlocale(LC_ALL, "Russian");
 	std::ifstream config(NameConfig);
@@ -17,7 +17,7 @@ void readfile(CString &NameConfig) {
 		CDigSensor node;
 		DigSensorArray.push_back(node);
 		while (getline(config, line)) {
-			if (WriteFlag) {
+			if (WriteFlag && line.find_first_of("1234567890") == 0) {
 				CDigSensor node; 
 				node.MakeSensor(line);
 				while (!IsNotGap(DigSensorArray.back(), node)) {
@@ -29,7 +29,7 @@ void readfile(CString &NameConfig) {
 			if (SensorDescribe(line)) WriteFlag = true;
 		}
 	}
-	printToRtf(DigSensorArray);
+	printToRtf(DigSensorArray, NameRTF, station);
 }
 
 bool SensorDescribe(std::string &line) {
@@ -38,6 +38,8 @@ bool SensorDescribe(std::string &line) {
 }
 CDigSensor CDigSensor::MakeSensor(std::string &line){
 	this->NumberWrite(IDFind(line));
+	//if (simple) this->ObjWrite(simpleMake(line), simpleMake(line));
+	//else 
 	this->ObjWrite(this->NameFind(line), this->TypeFind(line));
 	return *this;
 }
@@ -49,6 +51,16 @@ int CDigSensor::IDFind(std::string &line) {
 		NewID += MakeNumber(line[i])*pow(10, pos_2 - 1 - i);
 	}
 	return NewID;
+}
+
+std::string CDigSensor::simpleMake(std::string &line) {
+	int pos_1, pos_2, pos_ex;
+	pos_1 = line.find("//") + 3;
+	pos_ex = line.find("Состояние", pos_1);
+	if (pos_ex != -1) return line.substr(pos_ex);
+	pos_2 = line.find(": ", pos_1);
+	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
+	return line.substr(pos_1, pos_2 - pos_1);
 }
 std::string CDigSensor::NameFind(std::string &line) {
 	int pos_1, pos_2;
@@ -96,7 +108,7 @@ std::string CDigSensor::GetType() const {
 CDigSensor::CDigSensor(int NewID) : Name_obj(" "), Type_obj(" ") {
 	ID = NewID;
 	numOfSensor_1 = ID * 2 - 2;
-	numOfSensor_1 = ID * 2 - 1;
+	numOfSensor_2 = ID * 2 - 1;
 }
 CDigSensor::CDigSensor() : Name_obj(" "), Type_obj(" ") {
 	ID = 0;
@@ -107,10 +119,14 @@ int MakeNumber(char c) {
 	return (int)c - 48;
 }
 
-void printToRtf(std::list<CDigSensor> &DigSensorArray) {
-	std::ofstream output("C:\\Users\\MKD\\Desktop\\САПР\\config to rtf\\SAPR_MPC.rtf");
+void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString &station) {
+	std::ofstream output(nameRTF);
+	CT2CA pszConvertedAnsiString(station);
+	std::string out = (pszConvertedAnsiString);
 	output << "{\\rtf1 \n \\par ";
-	output << "{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\b Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ (Белорусская)\\par}" << std::endl;
+	output << "{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\b Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ ";
+	output << out;
+	output << " \\par}" << std::endl;
 	output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ";
 	output << "№";
 	output << " \\cell \\pard \\intbl ";
@@ -136,5 +152,5 @@ void printToRtf(std::list<CDigSensor> &DigSensorArray) {
 	}
 	output << "\\pard }";
 	output.close();
-	ShellExecute(0, L"open", L"C:\\Users\\MKD\\Desktop\\САПР\\config to rtf\\SAPR_MPC.rtf", 0, L"", SW_SHOW);
+	ShellExecute(0, L"open", nameRTF, 0, L"", SW_SHOW);
 }

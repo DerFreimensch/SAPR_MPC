@@ -65,5 +65,8 @@
     <Image Include="res\SAPR_MPC.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="res\LED_icons.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

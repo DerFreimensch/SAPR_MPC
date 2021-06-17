@@ -34,4 +34,8 @@ protected:
 public:
 	afx_msg void OnBnClickedButton1();
 	CButton make_button;
+	CString config;
+	CString rtf;
+	CString station;
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };

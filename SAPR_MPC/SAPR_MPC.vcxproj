@@ -213,6 +213,7 @@
     <None Include="res\SAPRMPC.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\LED_icons.ico" />
     <Image Include="res\SAPR_MPC.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
