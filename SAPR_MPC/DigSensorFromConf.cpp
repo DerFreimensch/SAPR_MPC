@@ -8,7 +8,9 @@
 std::list<CDigSensor>DigSensorArray;
 
 
-void readfile(CString &NameConfig, CString &NameRTF, CString &station) {
+void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze) {
+	CString FileName;
+	FileName = NameRTF + L"\\" + station + L".rtf";
 	bool WriteFlag = false;
 	setlocale(LC_ALL, "Russian");
 	std::ifstream config(NameConfig);
@@ -19,7 +21,7 @@ void readfile(CString &NameConfig, CString &NameRTF, CString &station) {
 		while (getline(config, line)) {
 			if (WriteFlag && line.find_first_of("1234567890") == 0) {
 				CDigSensor node; 
-				node.MakeSensor(line);
+				node.MakeSensor(line, SimpAnalyze);
 				while (!IsNotGap(DigSensorArray.back(), node)) {
 					CDigSensor newnode((DigSensorArray.back().GetID()+1));
 					DigSensorArray.push_back(newnode);
@@ -29,17 +31,18 @@ void readfile(CString &NameConfig, CString &NameRTF, CString &station) {
 			if (SensorDescribe(line)) WriteFlag = true;
 		}
 	}
-	printToRtf(DigSensorArray, NameRTF, station);
+	printToRtf(DigSensorArray, FileName, station);
+	DigSensorArray.erase(DigSensorArray.begin(), DigSensorArray.end());
 }
 
 bool SensorDescribe(std::string &line) {
 	if ("// Раздел описания датчиков" == line) return true;
 	else return false;
 }
-CDigSensor CDigSensor::MakeSensor(std::string &line){
+CDigSensor CDigSensor::MakeSensor(std::string &line, BOOL &simple){
 	this->NumberWrite(IDFind(line));
-	//if (simple) this->ObjWrite(simpleMake(line), simpleMake(line));
-	//else 
+	if (simple) this->ObjWrite(simpleMake(line), simpleMake(line));
+	else 
 	this->ObjWrite(this->NameFind(line), this->TypeFind(line));
 	return *this;
 }
@@ -134,9 +137,9 @@ void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString
 	output << " \\cell \\pard  \\intbl ";
 	output << "Тип объекта";
 	output << " \\cell \\pard  \\intbl ";
-	output << "Номер датчика в массиве";
+	output << "№ датчика в массиве";
 	output << " \\cell \\pard  \\intbl \\row \n";
-	for (const auto &elem : DigSensorArray) { //для всех элементов из 
+	for (const auto &elem : DigSensorArray) { 
 		if (elem.GetID() == 0) continue;
 		output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx8536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ";
 		output << elem.GetID();
@@ -152,5 +155,6 @@ void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString
 	}
 	output << "\\pard }";
 	output.close();
+
 	ShellExecute(0, L"open", nameRTF, 0, L"", SW_SHOW);
 }

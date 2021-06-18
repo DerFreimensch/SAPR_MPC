@@ -53,11 +53,11 @@ END_MESSAGE_MAP()
 
 CSAPRMPCDlg::CSAPRMPCDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_SAPR_MPC_DIALOG, pParent)
-	, config(_T(""))
-	, rtf(_T(""))
 	, CompAnalyze(FALSE)
 	, SimpAnalyze(FALSE)
 	, station(_T(""))
+	, sensor(_T(""))
+	, rtf(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
@@ -69,6 +69,9 @@ void CSAPRMPCDlg::DoDataExchange(CDataExchange* pDX)
 	//DDX_Radio(pDX, IDC_RADIO1, CompAnalyze);
 	//DDX_Radio(pDX, IDC_RADIO2, SimpAnalyze);
 	DDX_Text(pDX, IDC_EDIT1, station);
+	DDX_Text(pDX, IDC_MFCEDITBROWSE1, sensor);
+	DDX_Text(pDX, IDC_MFCEDITBROWSE2, rtf);
+	DDX_Control(pDX, IDC_MFCEDITBROWSE2, forFolder);
 }
 
 BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
@@ -80,7 +83,6 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_BN_CLICKED(IDC_RADIO1, &CSAPRMPCDlg::OnBnClickedRadio1)
 	ON_BN_CLICKED(IDC_RADIO2, &CSAPRMPCDlg::OnBnClickedRadio2)
-	
 END_MESSAGE_MAP()
 
 
@@ -175,7 +177,7 @@ void CSAPRMPCDlg::OnBnClickedButton1()
 {	
 	UpdateData(TRUE);
 
-	readfile(config, rtf, station);
+	readfile(sensor, rtf, station, SimpAnalyze);
 	UpdateData(FALSE);
 	// TODO: добавьте свой код обработчика уведомлений
 }
@@ -219,5 +221,7 @@ void CSAPRMPCDlg::OnBnClickedRadio2()
 	CompAnalyze = FALSE;
 	SimpAnalyze = TRUE;
 }
+
+
 
 

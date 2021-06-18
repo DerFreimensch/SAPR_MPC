@@ -3,7 +3,7 @@
 #include <list>
 class CDigSensor {
 public:
-	CDigSensor MakeSensor(std::string &line);
+	CDigSensor MakeSensor(std::string &line, BOOL &simple);
 	int GetID() const;
 	int GetNum_1() const;
 	int GetNum_2() const;
@@ -23,7 +23,7 @@ private:
 	std::string  Name_obj, Type_obj;
 };
 
-void readfile(CString &NameConfig, CString &NameRTF, CString &station);
+void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze);
 bool SensorDescribe(std::string &line);
 bool IsNotGap(CDigSensor &Prev, CDigSensor &Next);
 int MakeNumber(char c);
