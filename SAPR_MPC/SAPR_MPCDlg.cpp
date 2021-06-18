@@ -54,7 +54,7 @@ END_MESSAGE_MAP()
 CSAPRMPCDlg::CSAPRMPCDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_SAPR_MPC_DIALOG, pParent)
 	, CompAnalyze(FALSE)
-	, SimpAnalyze(FALSE)
+	, SimpAnalyze(TRUE)
 	, station(_T(""))
 	, sensor(_T(""))
 	, rtf(_T(""))
@@ -71,7 +71,7 @@ void CSAPRMPCDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT1, station);
 	DDX_Text(pDX, IDC_MFCEDITBROWSE1, sensor);
 	DDX_Text(pDX, IDC_MFCEDITBROWSE2, rtf);
-	DDX_Control(pDX, IDC_MFCEDITBROWSE2, forFolder);
+	DDX_Control(pDX, IDC_RADIO2, default_radio_button);
 }
 
 BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
@@ -83,6 +83,8 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_BN_CLICKED(IDC_RADIO1, &CSAPRMPCDlg::OnBnClickedRadio1)
 	ON_BN_CLICKED(IDC_RADIO2, &CSAPRMPCDlg::OnBnClickedRadio2)
+	ON_EN_CHANGE(IDC_EDIT1, &CSAPRMPCDlg::OnEnChangeEdit1)
+	ON_EN_CHANGE(IDC_MFCEDITBROWSE1, &CSAPRMPCDlg::OnEnChangeMfceditbrowse1)
 END_MESSAGE_MAP()
 
 
@@ -118,6 +120,7 @@ BOOL CSAPRMPCDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Мелкий значок
 
 	// TODO: добавьте дополнительную инициализацию
+	((CButton *) GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
@@ -176,7 +179,6 @@ HCURSOR CSAPRMPCDlg::OnQueryDragIcon()
 void CSAPRMPCDlg::OnBnClickedButton1()
 {	
 	UpdateData(TRUE);
-
 	readfile(sensor, rtf, station, SimpAnalyze);
 	UpdateData(FALSE);
 	// TODO: добавьте свой код обработчика уведомлений
@@ -225,3 +227,37 @@ void CSAPRMPCDlg::OnBnClickedRadio2()
 
 
 
+
+void CSAPRMPCDlg::OnEnChangeEdit1()
+{
+	// TODO:  Если это элемент управления RICHEDIT, то элемент управления не будет
+	// send this notification unless you override the CDialogEx::OnInitDialog()
+	// функция и вызов CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+	UpdateData(TRUE);
+	if (station != L"" && sensor != L"")
+		make_button.EnableWindow(TRUE);
+	else
+		make_button.EnableWindow(FALSE);
+	UpdateData(FALSE);
+	// TODO:  Добавьте код элемента управления
+}
+
+
+void CSAPRMPCDlg::OnEnChangeMfceditbrowse1()
+{
+	// TODO:  Если это элемент управления RICHEDIT, то элемент управления не будет
+	// send this notification unless you override the CDialogEx::OnInitDialog()
+	// функция и вызов CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+	UpdateData(TRUE);
+	if (station != L"" && sensor != L"")
+		make_button.EnableWindow(TRUE);
+	else
+		make_button.EnableWindow(FALSE);
+	if (rtf == L"") {
+		rtf = sensor.Left(sensor.ReverseFind('\\'));
+	}
+	UpdateData(FALSE);
+	// TODO:  Добавьте код элемента управления
+}

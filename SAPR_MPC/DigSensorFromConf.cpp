@@ -10,7 +10,8 @@ std::list<CDigSensor>DigSensorArray;
 
 void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze) {
 	CString FileName;
-	FileName = NameRTF + L"\\" + station + L".rtf";
+	FileName = NameRTF + '\\' + station;
+	FileName += L" Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ.rtf";
 	bool WriteFlag = false;
 	setlocale(LC_ALL, "Russian");
 	std::ifstream config(NameConfig);
@@ -128,7 +129,7 @@ void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString
 	std::string out = (pszConvertedAnsiString);
 	output << "{\\rtf1 \n \\par ";
 	output << "{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\b Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ ";
-	output << out;
+	output << '(' <<out << ')';
 	output << " \\par}" << std::endl;
 	output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ";
 	output << "№";

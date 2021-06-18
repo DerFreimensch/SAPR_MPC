@@ -43,5 +43,7 @@ public:
 	CString station;
 	CString sensor;
 	CString rtf;
-	CMFCEditBrowseCtrl forFolder;
+	afx_msg void OnEnChangeEdit1();
+	afx_msg void OnEnChangeMfceditbrowse1();
+	CButton default_radio_button;
 };
