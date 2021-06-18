@@ -36,6 +36,11 @@ public:
 	CButton make_button;
 	CString config;
 	CString rtf;
-	CString station;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	BOOL CompAnalyze;
+	BOOL SimpAnalyze;
+	afx_msg void OnBnClickedRadio1();
+	afx_msg void OnBnClickedRadio2();
+	CString station;
 };

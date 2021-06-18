@@ -55,6 +55,8 @@ CSAPRMPCDlg::CSAPRMPCDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_SAPR_MPC_DIALOG, pParent)
 	, config(_T(""))
 	, rtf(_T(""))
+	, CompAnalyze(FALSE)
+	, SimpAnalyze(FALSE)
 	, station(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
@@ -64,7 +66,9 @@ void CSAPRMPCDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_BUTTON1, make_button);
-
+	//DDX_Radio(pDX, IDC_RADIO1, CompAnalyze);
+	//DDX_Radio(pDX, IDC_RADIO2, SimpAnalyze);
+	DDX_Text(pDX, IDC_EDIT1, station);
 }
 
 BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
@@ -73,6 +77,10 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CSAPRMPCDlg::OnBnClickedButton1)
 	ON_WM_CREATE()
+	ON_WM_SIZE()
+	ON_BN_CLICKED(IDC_RADIO1, &CSAPRMPCDlg::OnBnClickedRadio1)
+	ON_BN_CLICKED(IDC_RADIO2, &CSAPRMPCDlg::OnBnClickedRadio2)
+	
 END_MESSAGE_MAP()
 
 
@@ -166,6 +174,7 @@ HCURSOR CSAPRMPCDlg::OnQueryDragIcon()
 void CSAPRMPCDlg::OnBnClickedButton1()
 {	
 	UpdateData(TRUE);
+
 	readfile(config, rtf, station);
 	UpdateData(FALSE);
 	// TODO: добавьте свой код обработчика уведомлений
@@ -181,6 +190,34 @@ int CSAPRMPCDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO:  Добавьте специализированный код создания
 	SetWindowText(L"САПР передачи в МПЦ-ЭЛ");
 	return 0;
+}
+
+
+void CSAPRMPCDlg::OnSize(UINT nType, int cx, int cy) {
+	CDialog::OnSize(nType, cx, cy);
+		CRect m_do_button;
+		if (make_button.GetSafeHwnd() != 0) {
+			make_button.GetWindowRect(m_do_button);
+			if (cy - 15 - (m_do_button.bottom - m_do_button.top) > 357)
+				make_button.MoveWindow(30,
+					cy - 15 - (m_do_button.bottom - m_do_button.top),
+					m_do_button.right - m_do_button.left,
+					m_do_button.bottom - m_do_button.top);
+		}
+}
+
+
+void CSAPRMPCDlg::OnBnClickedRadio1()
+{
+	CompAnalyze = TRUE;
+	SimpAnalyze = FALSE;
+}
+
+
+void CSAPRMPCDlg::OnBnClickedRadio2()
+{
+	CompAnalyze = FALSE;
+	SimpAnalyze = TRUE;
 }
 
 
