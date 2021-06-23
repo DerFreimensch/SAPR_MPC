@@ -3,7 +3,9 @@
 #include <string>
 #include "DigSensorFromConf.h"
 #include <cmath>
-
+#include <codecvt>
+#include <locale>
+#include <vector>
 
 std::list<CDigSensor>DigSensorArray;
 
@@ -20,6 +22,7 @@ void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &Sim
 		CDigSensor node;
 		DigSensorArray.push_back(node);
 		while (getline(config, line)) {
+			line = U2A(line, std::locale(".1251"));
 			if (WriteFlag && line.find_first_of("1234567890") == 0) {
 				CDigSensor node; 
 				node.MakeSensor(line, SimpAnalyze);
@@ -58,13 +61,9 @@ int CDigSensor::IDFind(std::string &line) {
 }
 
 std::string CDigSensor::simpleMake(std::string &line) {
-	int pos_1, pos_2, pos_ex;
+	int pos_1, pos_2;
 	pos_1 = line.find("//") + 3;
-	pos_ex = line.find("Состояние", pos_1);
-	if (pos_ex != -1) return line.substr(pos_ex);
-	pos_2 = line.find(": ", pos_1);
-	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
-	return line.substr(pos_1, pos_2 - pos_1);
+	return line.substr(pos_1);
 }
 std::string CDigSensor::NameFind(std::string &line) {
 	int pos_1, pos_2;
@@ -158,4 +157,11 @@ void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString
 	output.close();
 
 	ShellExecute(0, L"open", nameRTF, 0, L"", SW_SHOW);
+}
+
+std::string U2A(std::string &line,const std::locale& loc) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> wconv;
+	std::wstring wstr = wconv.from_bytes(line);
+	line  = CW2A(wstr.c_str());
+	return line;
 }

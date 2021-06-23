@@ -1,6 +1,7 @@
 #pragma once
 #include "framework.h"
 #include <list>
+#include <locale>
 class CDigSensor {
 public:
 	CDigSensor MakeSensor(std::string &line, BOOL &simple);
@@ -28,3 +29,4 @@ bool SensorDescribe(std::string &line);
 bool IsNotGap(CDigSensor &Prev, CDigSensor &Next);
 int MakeNumber(char c);
 void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString &station);
+std::string U2A(std::string &line, const std::locale& loc);
