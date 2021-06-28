@@ -23,10 +23,3 @@ private:
 	int ID, numOfSensor_1, numOfSensor_2;
 	std::string  Name_obj, Type_obj;
 };
-
-void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze);
-bool SensorDescribe(std::string &line);
-bool IsNotGap(CDigSensor &Prev, CDigSensor &Next);
-int MakeNumber(char c);
-void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString &station);
-std::string U2A(std::string &line, const std::locale& loc);

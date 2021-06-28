@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="AnSensorFromConf.h" />
     <ClInclude Include="DigSensorFromConf.h" />
+    <ClInclude Include="DirtWork.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -198,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnSensorFromConf.cpp" />
+    <ClCompile Include="DirtWork.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

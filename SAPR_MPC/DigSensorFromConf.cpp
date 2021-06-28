@@ -6,43 +6,8 @@
 #include <codecvt>
 #include <locale>
 #include <vector>
+#include "DirtWork.h"
 
-std::list<CDigSensor>DigSensorArray;
-
-
-void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze) {
-	CString FileName;
-	FileName = NameRTF + '\\' + station;
-	FileName += L" Ïåðå÷åíü äèñêðåòíûõ äàííûõ ÀÏÊ-ÄÊ äëÿ ïåðåäà÷è â ÌÏÖ-ÝË.rtf";
-	bool WriteFlag = false;
-	setlocale(LC_ALL, "Russian");
-	std::ifstream config(NameConfig);
-	std::string line;
-	if (config.is_open()) {
-		CDigSensor node;
-		DigSensorArray.push_back(node);
-		while (getline(config, line)) {
-			line = U2A(line, std::locale(".1251"));
-			if (WriteFlag && line.find_first_of("1234567890") == 0) {
-				CDigSensor node; 
-				node.MakeSensor(line, SimpAnalyze);
-				while (!IsNotGap(DigSensorArray.back(), node)) {
-					CDigSensor newnode((DigSensorArray.back().GetID()+1));
-					DigSensorArray.push_back(newnode);
-				}
-				DigSensorArray.push_back(node);
-			}
-			if (SensorDescribe(line)) WriteFlag = true;
-		}
-	}
-	printToRtf(DigSensorArray, FileName, station);
-	DigSensorArray.erase(DigSensorArray.begin(), DigSensorArray.end());
-}
-
-bool SensorDescribe(std::string &line) {
-	if ("// Ðàçäåë îïèñàíèÿ äàò÷èêîâ" == line) return true;
-	else return false;
-}
 CDigSensor CDigSensor::MakeSensor(std::string &line, BOOL &simple){
 	this->NumberWrite(IDFind(line));
 	if (simple) this->ObjWrite(simpleMake(line), simpleMake(line));
@@ -61,11 +26,13 @@ int CDigSensor::IDFind(std::string &line) {
 }
 
 std::string CDigSensor::simpleMake(std::string &line) {
-	int pos_1, pos_2;
+	int pos_1;
 	pos_1 = line.find("//") + 3;
+	if (line.find("ÐÅÇÅÐÂ") != -1) return "ÐÅÇÅÐÂ";
 	return line.substr(pos_1);
 }
 std::string CDigSensor::NameFind(std::string &line) {
+	if (line.find("ÐÅÇÅÐÂ") != -1) return "ÐÅÇÅÐÂ";
 	int pos_1, pos_2;
 	pos_1 = line.find("//") + 3;
 	pos_2 = line.find(": ", pos_1);
@@ -73,6 +40,7 @@ std::string CDigSensor::NameFind(std::string &line) {
 	return line.substr(pos_1, pos_2-pos_1);
 }
 std::string CDigSensor::TypeFind(std::string &line) {
+	if (line.find("ÐÅÇÅÐÂ") != -1) return "ÐÅÇÅÐÂ";
 	int pos_1, pos_2;
 	pos_1 = line.find("//") + 3;
 	pos_2 = line.find(": ", pos_1);
@@ -87,10 +55,6 @@ void CDigSensor::NumberWrite(int NewID) {
 void CDigSensor::ObjWrite(std::string &Name, std::string &Type) {
 	Name_obj = Name;
 	Type_obj = Type;
-}
-bool IsNotGap(CDigSensor &Prev, CDigSensor &Next) {
-	if (Prev.GetID() + 1 == Next.GetID()) return true;
-	else return false;
 }
 
 int CDigSensor::GetID() const{
@@ -117,51 +81,4 @@ CDigSensor::CDigSensor() : Name_obj(" "), Type_obj(" ") {
 	ID = 0;
 	numOfSensor_1 = 0;
 	numOfSensor_2 = 0;
-}
-int MakeNumber(char c) {
-	return (int)c - 48;
-}
-
-void printToRtf(std::list<CDigSensor> &DigSensorArray, CString &nameRTF, CString &station) {
-	std::ofstream output(nameRTF);
-	CT2CA pszConvertedAnsiString(station);
-	std::string out = (pszConvertedAnsiString);
-	output << "{\\rtf1 \n \\par ";
-	output << "{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\b Ïåðå÷åíü äèñêðåòíûõ äàííûõ ÀÏÊ-ÄÊ äëÿ ïåðåäà÷è â ÌÏÖ-ÝË ";
-	output << '(' <<out << ')';
-	output << " \\par}" << std::endl;
-	output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ";
-	output << "¹";
-	output << " \\cell \\pard \\intbl ";
-	output << "Íàçâàíèå îáúåêòà";
-	output << " \\cell \\pard  \\intbl ";
-	output << "Òèï îáúåêòà";
-	output << " \\cell \\pard  \\intbl ";
-	output << "¹ äàò÷èêà â ìàññèâå";
-	output << " \\cell \\pard  \\intbl \\row \n";
-	for (const auto &elem : DigSensorArray) { 
-		if (elem.GetID() == 0) continue;
-		output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx8536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ";
-		output << elem.GetID();
-		output << " \\cell \\pard \\intbl ";
-		output << elem.GetName();
-		output << " \\cell \\pard  \\intbl ";
-		output << elem.GetType();
-		output << " \\cell \\pard  \\intbl ";
-		output << elem.GetNum_1();
-		output << " \\cell \\pard  \\intbl ";
-		output << elem.GetNum_2();
-		output << " \\cell \\pard  \\intbl \\row \n";
-	}
-	output << "\\pard }";
-	output.close();
-
-	ShellExecute(0, L"open", nameRTF, 0, L"", SW_SHOW);
-}
-
-std::string U2A(std::string &line,const std::locale& loc) {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>> wconv;
-	std::wstring wstr = wconv.from_bytes(line);
-	line  = CW2A(wstr.c_str());
-	return line;
 }

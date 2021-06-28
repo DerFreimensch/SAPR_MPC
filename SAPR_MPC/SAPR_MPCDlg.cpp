@@ -7,7 +7,7 @@
 #include "SAPR_MPC.h"
 #include "SAPR_MPCDlg.h"
 #include "afxdialogex.h"
-#include "DigSensorFromConf.h"
+#include "DirtWork.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -58,6 +58,8 @@ CSAPRMPCDlg::CSAPRMPCDlg(CWnd* pParent /*=nullptr*/)
 	, station(_T(""))
 	, sensor(_T(""))
 	, rtf(_T(""))
+	, An(FALSE)
+	, Dig(TRUE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
@@ -72,6 +74,8 @@ void CSAPRMPCDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_MFCEDITBROWSE1, sensor);
 	DDX_Text(pDX, IDC_MFCEDITBROWSE2, rtf);
 	DDX_Control(pDX, IDC_RADIO2, default_radio_button);
+	//DDX_Radio(pDX, IDC_RADIO4, An);
+	//DDX_Radio(pDX, IDC_RADIO3, Dig);
 }
 
 BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
@@ -85,6 +89,8 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RADIO2, &CSAPRMPCDlg::OnBnClickedRadio2)
 	ON_EN_CHANGE(IDC_EDIT1, &CSAPRMPCDlg::OnEnChangeEdit1)
 	ON_EN_CHANGE(IDC_MFCEDITBROWSE1, &CSAPRMPCDlg::OnEnChangeMfceditbrowse1)
+	ON_BN_CLICKED(IDC_RADIO4, &CSAPRMPCDlg::OnBnClickedRadio4)
+	ON_BN_CLICKED(IDC_RADIO3, &CSAPRMPCDlg::OnBnClickedRadio3)
 END_MESSAGE_MAP()
 
 
@@ -121,6 +127,7 @@ BOOL CSAPRMPCDlg::OnInitDialog()
 
 	// TODO: добавьте дополнительную инициализацию
 	((CButton *) GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+	((CButton *) GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
@@ -179,7 +186,7 @@ HCURSOR CSAPRMPCDlg::OnQueryDragIcon()
 void CSAPRMPCDlg::OnBnClickedButton1()
 {	
 	UpdateData(TRUE);
-	readfile(sensor, rtf, station, SimpAnalyze);
+	readfile(sensor, rtf, station, SimpAnalyze, An);
 	UpdateData(FALSE);
 	// TODO: добавьте свой код обработчика уведомлений
 }
@@ -260,4 +267,18 @@ void CSAPRMPCDlg::OnEnChangeMfceditbrowse1()
 	}
 	UpdateData(FALSE);
 	// TODO:  Добавьте код элемента управления
+}
+
+
+void CSAPRMPCDlg::OnBnClickedRadio4()
+{
+	Dig = FALSE;
+	An = TRUE;
+}
+
+
+void CSAPRMPCDlg::OnBnClickedRadio3()
+{
+	Dig = TRUE;
+	An = FALSE;
 }

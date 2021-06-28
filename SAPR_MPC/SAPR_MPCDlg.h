@@ -46,4 +46,8 @@ public:
 	afx_msg void OnEnChangeEdit1();
 	afx_msg void OnEnChangeMfceditbrowse1();
 	CButton default_radio_button;
+	BOOL An;
+	BOOL Dig;
+	afx_msg void OnBnClickedRadio4();
+	afx_msg void OnBnClickedRadio3();
 };

@@ -39,6 +39,9 @@
     <ClInclude Include="AnSensorFromConf.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="DirtWork.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SAPR_MPC.cpp">
@@ -54,6 +57,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="AnSensorFromConf.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="DirtWork.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
