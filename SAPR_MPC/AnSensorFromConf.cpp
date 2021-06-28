@@ -57,14 +57,14 @@ std::string CAnSensor::NameFind(std::string &line) {
 	pos_1 = line.find("//") + 3;
 	pos_2 = line.find(". ", pos_1);
 	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
-	if (line.find_first_of("UtIPS", pos_2 + 2) != -1) return (line.substr(pos_1, pos_2 - pos_1) + line.substr(pos_2 + 3, line.find('(', pos_2)));
+	//if (line.find_first_of("UtIPSR", pos_2 + 2) != -1) return (line.substr(pos_1, pos_2 - pos_1) + line.substr(pos_2 + 3, line.find('(', pos_2)));
 	return line.substr(pos_1, pos_2 - pos_1);
 }
 
 std::string CAnSensor::TypeFind(std::string &line) {
 	int pos_1, pos_2;
 	pos_1 = line.find("(") + 1;
-	pos_2 = line.find(")")-1;
+	pos_2 = line.find(")");
 	if (line[pos_1] == 'А') {
 		Unit = 'А';
 		return "Ток";
@@ -81,13 +81,17 @@ std::string CAnSensor::TypeFind(std::string &line) {
 		Unit = "кВА.ч";
 		return "Полная мощность";
 	}
-	else if (line[pos_1] == 'C') {
+	else if (line[pos_1] == 'С') {
 		Unit = 'С';
 		return "Температура";
 	}
-	else if (pos_1 == 0) {
+	else if (pos_1 == 0  || pos_1 == 1) {
 		Unit = 'X';
-		return line.substr(line.find_last_of("."));
+		if (line.find_last_of("R") != -1) {
+			Unit = "Код";
+			return "Сопротивление " + line.substr(line.find_last_of("R"));
+		}
+		else return line.substr(line.find_last_of("."));
 	}
 }
 void CAnSensor::NumberWrite(int NewID) {
