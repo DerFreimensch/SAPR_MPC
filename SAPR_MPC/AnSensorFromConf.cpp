@@ -57,33 +57,37 @@ std::string CAnSensor::NameFind(std::string &line) {
 	pos_1 = line.find("//") + 3;
 	pos_2 = line.find(". ", pos_1);
 	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
-	//if (line.find_first_of("UtIPSR", pos_2 + 2) != -1) return (line.substr(pos_1, pos_2 - pos_1) + line.substr(pos_2 + 3, line.find('(', pos_2)));
+	//if (line.find_first_of("UtIPS", pos_2 + 2) != -1) return (line.substr(pos_1, pos_2 - pos_1) + line.substr(pos_2 + 3, line.find('(', pos_2)));
 	return line.substr(pos_1, pos_2 - pos_1);
 }
 
 std::string CAnSensor::TypeFind(std::string &line) {
-	int pos_1, pos_2;
+	int pos_1, pos_2, pos_ex1, pos_ex2;
 	pos_1 = line.find("(") + 1;
 	pos_2 = line.find(")");
+	std::string ex;
+	pos_ex1 = line.find(". ", line.find("//") + 3);
+	if (pos_1 == 0) ex = line.substr(pos_ex1);
+	else ex = line.substr(pos_ex1+2, pos_1-2);
 	if (line[pos_1] == 'А') {
 		Unit = 'А';
-		return "Ток";
+		return "Ток "+ex;
 	}
 	else if (line[pos_1] == 'В') {
 		Unit = 'В';
-		return "Напряжение";
+		return "Напряжение "+ex;
 	}
 	else if (line.substr(pos_1,pos_2-pos_1) == "кВт.ч") {
 		Unit = "кВт.ч";
-		return "Активная мощность";
+		return "Активная мощность "+ex;
 	}
 	else if (line.substr(pos_1, pos_2 - pos_1) == "кВА.ч") {
 		Unit = "кВА.ч";
-		return "Полная мощность";
+		return "Полная мощность "+ex;
 	}
 	else if (line[pos_1] == 'С') {
 		Unit = 'С';
-		return "Температура";
+		return "Температура "+ex;
 	}
 	else if (pos_1 == 0  || pos_1 == 1) {
 		Unit = 'X';

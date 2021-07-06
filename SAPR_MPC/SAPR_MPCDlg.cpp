@@ -8,6 +8,7 @@
 #include "SAPR_MPCDlg.h"
 #include "afxdialogex.h"
 #include "DirtWork.h"
+#include "CSensorChoise.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -91,6 +92,7 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_MFCEDITBROWSE1, &CSAPRMPCDlg::OnEnChangeMfceditbrowse1)
 	ON_BN_CLICKED(IDC_RADIO4, &CSAPRMPCDlg::OnBnClickedRadio4)
 	ON_BN_CLICKED(IDC_RADIO3, &CSAPRMPCDlg::OnBnClickedRadio3)
+	ON_BN_CLICKED(IDC_MFCBUTTON1, &CSAPRMPCDlg::OnBnClickedMfcbutton1)
 END_MESSAGE_MAP()
 
 
@@ -128,6 +130,7 @@ BOOL CSAPRMPCDlg::OnInitDialog()
 	// TODO: добавьте дополнительную инициализацию
 	((CButton *) GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
 	((CButton *) GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
+
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
@@ -281,4 +284,11 @@ void CSAPRMPCDlg::OnBnClickedRadio3()
 {
 	Dig = TRUE;
 	An = FALSE;
+}
+
+
+void CSAPRMPCDlg::OnBnClickedMfcbutton1()
+{
+	CSensorChoise SensorDialog(this);
+	SensorDialog.DoModal();
 }

@@ -50,4 +50,5 @@ public:
 	BOOL Dig;
 	afx_msg void OnBnClickedRadio4();
 	afx_msg void OnBnClickedRadio3();
+	afx_msg void OnBnClickedMfcbutton1();
 };

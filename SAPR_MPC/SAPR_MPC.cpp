@@ -58,7 +58,6 @@ BOOL CSAPR_MPCApp::InitInstance()
 
 
 	AfxEnableControlContainer();
-
 	// Создать диспетчер оболочки, в случае, если диалоговое окно содержит
 	// представление дерева оболочки или какие-либо его элементы управления.
 	CShellManager *pShellManager = new CShellManager;
