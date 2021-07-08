@@ -1,15 +1,15 @@
 ﻿#pragma once
 
-
 // Диалоговое окно CSensorChoise
-
+class CData;
 class CSensorChoise : public CDialogEx
 {
 	DECLARE_DYNAMIC(CSensorChoise)
 
 public:
-	CSensorChoise(CWnd* pParent = nullptr);   // стандартный конструктор
+	CSensorChoise(CData &Data, CWnd* pParent = nullptr);   // стандартный конструктор
 	virtual ~CSensorChoise();
+	
 
 // Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
@@ -23,4 +23,9 @@ protected:
 public:
 	CMFCButton ChoiseSensor;
 	afx_msg void OnBnClickedMfcbutton2();
+	CString SensorFile;
+	CString ConfigFolder;
+	CString DeviceName;
+private:
+	CData &m_Data;
 };

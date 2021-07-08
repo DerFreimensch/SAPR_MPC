@@ -6,14 +6,18 @@
 #include "CSensorChoise.h"
 #include "afxdialogex.h"
 #include "ListBox.h"
-
+#include "CData.h"
 
 // Диалоговое окно CSensorChoise
 
 IMPLEMENT_DYNAMIC(CSensorChoise, CDialogEx)
 
-CSensorChoise::CSensorChoise(CWnd* pParent /*=nullptr*/)
+CSensorChoise::CSensorChoise(CData &Data, CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CONFMAKE, pParent)
+	, m_Data(Data)
+	, SensorFile(_T(""))
+	, ConfigFolder(_T(""))
+	, DeviceName(_T(""))
 {
 
 }
@@ -26,6 +30,9 @@ void CSensorChoise::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_MFCBUTTON2, ChoiseSensor);
+	DDX_Text(pDX, IDC_MFCEDITBROWSE3, SensorFile);
+	DDX_Text(pDX, IDC_MFCEDITBROWSE2, ConfigFolder);
+	DDX_Text(pDX, IDC_RICHEDIT21, DeviceName);
 }
 
 
@@ -39,6 +46,6 @@ END_MESSAGE_MAP()
 
 void CSensorChoise::OnBnClickedMfcbutton2()
 {
-	ListBox box;
+	ListBox box(m_Data, this);
 	box.DoModal();
 }

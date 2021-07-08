@@ -5,14 +5,17 @@
 #include "SAPR_MPC.h"
 #include "ListBox.h"
 #include "afxdialogex.h"
-
+#include "CSensorChoise.h"
+#include "SAPR_MPCDlg.h"
+#include "CData.h"
 
 // Диалоговое окно ListBox
 
 IMPLEMENT_DYNAMIC(ListBox, CDialogEx)
 
-ListBox::ListBox(CWnd* pParent /*=nullptr*/)
+ListBox::ListBox(CData &SensorList, CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_LIST, pParent)
+	, m_SensorList(SensorList)
 {
 
 }
@@ -33,8 +36,9 @@ END_MESSAGE_MAP()
 
 
 // Обработчики сообщений ListBox
-void ListBox::LoadListBox(std::list<CString> SensorList) {
-	for (auto const elem : SensorList) {
+void ListBox::LoadListBox() {
+	for (auto const elem : m_SensorList.GetData()) {
 		m_listBox.AddString(elem);
 	}
 }
+

@@ -188,7 +188,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnSensorFromConf.h" />
-    <ClInclude Include="ConfConcentrator.h" />
+    <ClInclude Include="CData.h" />
     <ClInclude Include="CSensorChoise.h" />
     <ClInclude Include="DigSensorFromConf.h" />
     <ClInclude Include="DirtWork.h" />
@@ -202,7 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnSensorFromConf.cpp" />
-    <ClCompile Include="ConfConcentrator.cpp" />
+    <ClCompile Include="CData.cpp" />
     <ClCompile Include="CSensorChoise.cpp" />
     <ClCompile Include="DirtWork.cpp" />
     <ClCompile Include="ListBox.cpp" />

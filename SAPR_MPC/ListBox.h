@@ -2,15 +2,15 @@
 #include <list>
 
 // Диалоговое окно ListBox
-
+class CData;
 class ListBox : public CDialogEx
 {
 	DECLARE_DYNAMIC(ListBox)
 
 public:
-	ListBox(CWnd* pParent = nullptr);   // стандартный конструктор
+	ListBox(CData &SensorList, CWnd* pParent = nullptr);   // стандартный конструктор
 	virtual ~ListBox();
-	void LoadListBox(std::list<CString> SensorList);
+	void LoadListBox();
 
 // Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
@@ -23,4 +23,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CListBox m_listBox;
+private:
+	CData &m_SensorList;
 };

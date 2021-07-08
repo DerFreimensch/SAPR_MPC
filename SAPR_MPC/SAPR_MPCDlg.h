@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "CData.h"
 
 // Диалоговое окно CSAPRMPCDlg
 class CSAPRMPCDlg : public CDialogEx
@@ -51,4 +51,6 @@ public:
 	afx_msg void OnBnClickedRadio4();
 	afx_msg void OnBnClickedRadio3();
 	afx_msg void OnBnClickedMfcbutton1();
+private:
+	CData m_SensorData;
 };

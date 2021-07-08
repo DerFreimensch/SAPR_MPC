@@ -289,6 +289,6 @@ void CSAPRMPCDlg::OnBnClickedRadio3()
 
 void CSAPRMPCDlg::OnBnClickedMfcbutton1()
 {
-	CSensorChoise SensorDialog(this);
+	CSensorChoise SensorDialog(m_SensorData, this);
 	SensorDialog.DoModal();
 }
