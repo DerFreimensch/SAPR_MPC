@@ -9,6 +9,7 @@
 #include "afxdialogex.h"
 #include "DirtWork.h"
 #include "CSensorChoise.h"
+#include "ListBox.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

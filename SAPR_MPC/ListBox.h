@@ -25,4 +25,7 @@ public:
 	CListBox m_listBox;
 private:
 	CData &m_SensorList;
+public:
+	afx_msg void OnLbnSelchangeList1();
+	afx_msg void OnBnClickedButton1();
 };

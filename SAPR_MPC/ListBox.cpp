@@ -32,6 +32,8 @@ void ListBox::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(ListBox, CDialogEx)
+	ON_LBN_SELCHANGE(IDC_LIST1, &ListBox::OnLbnSelchangeList1)
+	ON_BN_CLICKED(IDC_BUTTON1, &ListBox::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -42,3 +44,15 @@ void ListBox::LoadListBox() {
 	}
 }
 
+
+
+void ListBox::OnLbnSelchangeList1()
+{
+
+}
+
+
+void ListBox::OnBnClickedButton1()
+{
+	LoadListBox();
+}

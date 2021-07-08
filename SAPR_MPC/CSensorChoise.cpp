@@ -46,6 +46,8 @@ END_MESSAGE_MAP()
 
 void CSensorChoise::OnBnClickedMfcbutton2()
 {
+	UpdateData(TRUE);
+	m_Data.fillData(SensorFile);
 	ListBox box(m_Data, this);
 	box.DoModal();
 }
