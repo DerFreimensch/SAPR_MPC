@@ -23,12 +23,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// Данные диалогового окна
+	// Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
 
 // Реализация
@@ -84,7 +84,7 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BUTTON1, &CSAPRMPCDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON1, &CSAPRMPCDlg::OnBnClickedCreate)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_BN_CLICKED(IDC_RADIO1, &CSAPRMPCDlg::OnBnClickedRadio1)
@@ -93,7 +93,7 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_MFCEDITBROWSE1, &CSAPRMPCDlg::OnEnChangeMfceditbrowse1)
 	ON_BN_CLICKED(IDC_RADIO4, &CSAPRMPCDlg::OnBnClickedRadio4)
 	ON_BN_CLICKED(IDC_RADIO3, &CSAPRMPCDlg::OnBnClickedRadio3)
-	ON_BN_CLICKED(IDC_MFCBUTTON1, &CSAPRMPCDlg::OnBnClickedMfcbutton1)
+	ON_BN_CLICKED(IDC_MFCBUTTON1, &CSAPRMPCDlg::OnBnClickedCreateConfig)
 END_MESSAGE_MAP()
 
 
@@ -129,8 +129,8 @@ BOOL CSAPRMPCDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Мелкий значок
 
 	// TODO: добавьте дополнительную инициализацию
-	((CButton *) GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
-	((CButton *) GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
+	((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+	((CButton *)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
 
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
@@ -187,8 +187,8 @@ HCURSOR CSAPRMPCDlg::OnQueryDragIcon()
 
 
 
-void CSAPRMPCDlg::OnBnClickedButton1()
-{	
+void CSAPRMPCDlg::OnBnClickedCreate()
+{
 	UpdateData(TRUE);
 	readfile(sensor, rtf, station, SimpAnalyze, An);
 	UpdateData(FALSE);
@@ -210,15 +210,15 @@ int CSAPRMPCDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CSAPRMPCDlg::OnSize(UINT nType, int cx, int cy) {
 	CDialog::OnSize(nType, cx, cy);
-		CRect m_do_button;
-		if (make_button.GetSafeHwnd() != 0) {
-			make_button.GetWindowRect(m_do_button);
-			if (cy - 15 - (m_do_button.bottom - m_do_button.top) > 357)
-				make_button.MoveWindow(30,
-					cy - 15 - (m_do_button.bottom - m_do_button.top),
-					m_do_button.right - m_do_button.left,
-					m_do_button.bottom - m_do_button.top);
-		}
+	CRect m_do_button;
+	if (make_button.GetSafeHwnd() != 0) {
+		make_button.GetWindowRect(m_do_button);
+		if (cy - 15 - (m_do_button.bottom - m_do_button.top) > 357)
+			make_button.MoveWindow(30,
+				cy - 15 - (m_do_button.bottom - m_do_button.top),
+				m_do_button.right - m_do_button.left,
+				m_do_button.bottom - m_do_button.top);
+	}
 }
 
 
@@ -288,7 +288,7 @@ void CSAPRMPCDlg::OnBnClickedRadio3()
 }
 
 
-void CSAPRMPCDlg::OnBnClickedMfcbutton1()
+void CSAPRMPCDlg::OnBnClickedCreateConfig()
 {
 	CSensorChoise SensorDialog(m_SensorData, this);
 	SensorDialog.DoModal();

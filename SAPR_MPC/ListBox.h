@@ -8,7 +8,7 @@ class ListBox : public CDialogEx
 	DECLARE_DYNAMIC(ListBox)
 
 public:
-	ListBox(CData &SensorList, CWnd* pParent = nullptr);   // стандартный конструктор
+	ListBox(CData &c_sensorList, CWnd* pParent = nullptr);   // стандартный конструктор
 	virtual ~ListBox();
 	void LoadListBox();
 
@@ -27,5 +27,6 @@ private:
 	CData &m_SensorList;
 public:
 	afx_msg void OnLbnSelchangeList1();
-	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedUpdate();
+	afx_msg void OnBnClickedSave();
 };

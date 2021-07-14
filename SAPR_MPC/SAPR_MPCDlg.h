@@ -8,7 +8,7 @@
 // Диалоговое окно CSAPRMPCDlg
 class CSAPRMPCDlg : public CDialogEx
 {
-// Создание
+	// Создание
 public:
 	CSAPRMPCDlg(CWnd* pParent = nullptr);	// стандартный конструктор
 
@@ -17,7 +17,7 @@ public:
 	enum { IDD = IDD_SAPR_MPC_DIALOG };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// поддержка DDX/DDV
 
 
@@ -32,7 +32,7 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedCreate();
 	CButton make_button;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -50,7 +50,7 @@ public:
 	BOOL Dig;
 	afx_msg void OnBnClickedRadio4();
 	afx_msg void OnBnClickedRadio3();
-	afx_msg void OnBnClickedMfcbutton1();
+	afx_msg void OnBnClickedCreateConfig();
 private:
 	CData m_SensorData;
 };

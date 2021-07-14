@@ -170,7 +170,7 @@ CString makeAn(CString &NameConfig, CString &NameRTF, CString &station, BOOL &Si
 }
 
 std::string O2A(std::string &line) {
-	char *ex = (char*)alloca(strlen(line.c_str())+1);
+	char *ex = (char*)alloca(strlen(line.c_str()) + 1);
 	OemToAnsi(line.c_str(), ex);
 	line = ex;
 	return line;
