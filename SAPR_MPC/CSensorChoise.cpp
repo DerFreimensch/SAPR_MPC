@@ -53,7 +53,7 @@ void CSensorChoise::OnBnClickedTakeSensor()
 	ListBox box(m_Data, this);
 	box.DoModal();
 	m_Data.EraseList();
-	h = h + m_Data.FileAdd(ConfigFolder, DeviceName, h);
+	h = m_Data.FileAdd(ConfigFolder, DeviceName, h);
 }
 
 

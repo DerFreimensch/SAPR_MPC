@@ -9,8 +9,10 @@
 #include <locale>
 #include <vector>
 
+
 std::list<CAnSensor>SensorArrayAn;
 std::list<CDigSensor>SensorArrayDig;
+
 
 
 void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze, BOOL &An) {
@@ -38,6 +40,7 @@ int MakeNumber(char c) {
 }
 
 void printToRtfDig(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString &station) {
+	setlocale(LC_ALL, "Russian");
 	std::ofstream output(nameRTF);
 	CT2CA pszConvertedAnsiString(station);
 	std::string out = (pszConvertedAnsiString);
@@ -58,13 +61,13 @@ void printToRtfDig(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString
 		if (elem.GetID() == 0) continue;
 		output << "\\trowd \\trql \\trgaph108 \\trrh280 \\trleft36 \\clbrdrt \\brdrth \\clbrdrl \\brdrth \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx1036 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx3536 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx7036 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx8536 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx10036 \\pard \\intbl \\qc ";
 		output << elem.GetID();
-		output << "\\cell \\pard \\intbl \\qc";
+		output << "\\cell \\pard \\intbl \\qc ";
 		output << elem.GetName();
-		output << "\\cell \\pard \\intbl";
+		output << "\\cell \\pard \\intbl ";
 		output << elem.GetType();
-		output << "\\cell \\pard \\intbl \\qc";
+		output << "\\cell \\pard \\intbl \\qc ";
 		output << elem.GetNum_1();
-		output << "\\cell \\pard \\intbl \\qc";
+		output << "\\cell \\pard \\intbl \\qc ";
 		output << elem.GetNum_2();
 		output << "\\cell \\pard \\intbl \\row\n";
 	}
@@ -75,6 +78,7 @@ void printToRtfDig(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString
 }
 
 void printToRtfAn(std::list<CAnSensor> &SensorArray, CString &nameRTF, CString &station) {
+	setlocale(LC_ALL, "Russian");
 	std::ofstream output(nameRTF);
 	CT2CA pszConvertedAnsiString(station);
 	std::string out = (pszConvertedAnsiString);
@@ -128,7 +132,7 @@ CString makeDig(CString &NameConfig, CString &NameRTF, CString &station, BOOL &S
 		CDigSensor node;
 		SensorArrayDig.push_back(node);
 		while (getline(config, line)) {
-			line = O2A(line);
+			//line = O2A(line);
 			if (SensorDescribe(line) && line.find_first_of("1234567890") == 0) {
 				CDigSensor node;
 				node.MakeSensor(line, SimpAnalyze);
@@ -154,7 +158,7 @@ CString makeAn(CString &NameConfig, CString &NameRTF, CString &station, BOOL &Si
 		CAnSensor node;
 		SensorArrayAn.push_back(node);
 		while (getline(config, line)) {
-			line = O2A(line);
+			//line = O2A(line);
 			if (SensorDescribe(line) && line.find_first_of("1234567890") == 0) {
 				CAnSensor node;
 				node.MakeSensor(line, SimpAnalyze);

@@ -35,10 +35,7 @@ void CData::EraseAll() {
 	c_choiseSensor.erase(c_choiseSensor.begin(), c_choiseSensor.end());
 }
 void CData::FillSensor(std::list<CString> &t_newList) {
-	for (int i = 0; i < t_newList.size(); i++) {
-		c_choiseSensor.resize(t_newList.size());
 		c_choiseSensor = t_newList;
-	}
 }
 void CData::EraseList() {
 	c_sensorList.erase(c_sensorList.begin(), c_sensorList.end());
