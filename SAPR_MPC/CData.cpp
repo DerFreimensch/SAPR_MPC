@@ -21,8 +21,8 @@ void CData::FillData(CString &File) {
 				int pos_1, pos_2, pos_3;
 				std::string SubData;
 				pos_1 = line.find(' ');
-				pos_2 = line.find_first_of("0123456789", pos_1);
-				pos_3 = line.find_first_not_of(' ', pos_2 + 13);
+				pos_2 = line.find_first_not_of(' ', pos_1) + 12;
+				pos_3 = line.find_first_not_of(' ', pos_2);
 				SubData = line.substr(0, pos_1) + ' ' + line.substr(pos_3);
 				CString SubDataMain(SubData.c_str());
 				this->AddData(SubDataMain);
@@ -47,13 +47,21 @@ CString CData::GetNumber(CString &line) {
 	return line.Left(line.Find(' '));
 }
 CString CData::GetComm(CString &line) {
-	return line.Right(line.GetLength() - line.Find(' '));
+	return line.Right(line.GetLength() - (line.Find(' ')+1));
+}
+std::string CData::MakeASpace(int i) {
+	std::string ex;
+	for (int j = 0; j < i; j++) {
+		ex = ex + " ";
+	}
+	return ex;
 }
 int CData::FileAdd(CString &File, CString &Name, int &i) {
 	std::ofstream output(CT2CA(File), std::ios_base::app);
 	for (auto &elem : c_choiseSensor) {
 		i++;
-		output << "1       " << i << "   " << CT2CA(Name) << "       " << CT2CA(this->GetNumber(elem)) << "   @   0   0   0   0   // " << CT2CA(this->GetComm(elem)) << std::endl;
+		std::string ex = std::to_string(i);
+		output << "1" << this->MakeASpace(6 - ex.size()) << i << "   " << CT2CA(Name) << this->MakeASpace(8-(this->GetNumber(elem)).GetLength()) << CT2CA(this->GetNumber(elem)) << "   @   0   0   0   0   // " << CT2CA(this->GetComm(elem)) << std::endl;
 	}
 	output << std::endl;
 	output.close();

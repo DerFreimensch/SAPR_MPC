@@ -12,6 +12,7 @@ public:
 	int FileAdd(CString &File, CString &Name, int &i);
 	CString GetNumber(CString &line);
 	CString GetComm(CString &line);
+	std::string MakeASpace(int i);
 private:
 	std::list<CString> c_sensorList;
 	std::list<CString> c_choiseSensor;
