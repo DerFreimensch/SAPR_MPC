@@ -8,6 +8,7 @@
 #include "CSensorChoise.h"
 #include "SAPR_MPCDlg.h"
 #include "CData.h"
+#include "DirtWork.h"
 
 // Диалоговое окно ListBox
 
@@ -68,6 +69,9 @@ void ListBox::OnBnClickedSave()
 	m_listBox.GetSelItems(m_listBox.GetSelCount(), aryListSel.GetData());
 	for (int i = 0; i < m_listBox.GetSelCount(); i++) {
 		m_listBox.GetText(aryListSel.GetAt(i), ex);
+		CT2CA temp(ex);
+		std::string extra(temp);
+		ex = A2O(extra).c_str();
 		ChoiseSensor.push_back(ex);
 	}
 	m_SensorList.FillSensor(ChoiseSensor);

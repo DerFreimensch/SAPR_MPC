@@ -31,7 +31,7 @@ bool SensorDescribe(std::string &line) {
 }
 template <class T>
 bool IsNotGap(T &Prev, T &Next) {
-	if (Prev.GetID() + 1 == Next.GetID()) return true;
+	if (Prev.GetID() + 1 >= Next.GetID()) return true;
 	else return false;
 }
 
@@ -132,8 +132,8 @@ CString makeDig(CString &NameConfig, CString &NameRTF, CString &station, BOOL &S
 		CDigSensor node;
 		SensorArrayDig.push_back(node);
 		while (getline(config, line)) {
-			//line = O2A(line);
-			if (SensorDescribe(line) && line.find_first_of("1234567890") == 0) {
+			line = O2A(line);
+			if (SensorDescribe(line) && IsRight(line)) {
 				CDigSensor node;
 				node.MakeSensor(line, SimpAnalyze);
 				while (!IsNotGap(SensorArrayDig.back(), node)) {
@@ -158,8 +158,8 @@ CString makeAn(CString &NameConfig, CString &NameRTF, CString &station, BOOL &Si
 		CAnSensor node;
 		SensorArrayAn.push_back(node);
 		while (getline(config, line)) {
-			//line = O2A(line);
-			if (SensorDescribe(line) && line.find_first_of("1234567890") == 0) {
+			line = O2A(line);
+			if (SensorDescribe(line) && IsRight(line)) {
 				CAnSensor node;
 				node.MakeSensor(line, SimpAnalyze);
 				while (!IsNotGap(SensorArrayAn.back(), node)) {
@@ -178,4 +178,21 @@ std::string O2A(std::string &line) {
 	OemToAnsi(line.c_str(), ex);
 	line = ex;
 	return line;
+}
+std::string A2O(std::string &line) {
+	char *ex = (char*)alloca(strlen(line.c_str()) + 1);
+	AnsiToOem(line.c_str(), ex);
+	line = ex;
+	return line;
+}
+
+BOOL IsRight(std::string &line) {
+	int pos_1;
+	pos_1 = line.find_first_of("1234567890", 0);
+	if (pos_1 == -1) return false;
+	for (int i = 0; i < pos_1; i++) {
+		if (line[i] == ' ') continue;
+		else return false;
+	}
+	return true;
 }

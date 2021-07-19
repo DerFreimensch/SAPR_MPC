@@ -16,10 +16,11 @@ CDigSensor CDigSensor::MakeSensor(std::string &line, BOOL &simple){
 	return *this;
 }
 int CDigSensor::IDFind(std::string &line) {
-	int NewID = 0, pos_1 = 0, pos_2 = 0;
-	pos_1 = line.find_first_of("1234567890", 2);
-	pos_2 = line.find_first_not_of("1234567890", pos_1);
-	for (int i = pos_2 - 1; i > pos_1 - 1; i--) {
+	int NewID = 0, pos_1 = 0, pos_2 = 0, pos_3;
+	pos_1 = line.find_first_of("1234567890", 0);
+	pos_3 = line.find_first_of("1234567890", pos_1+1);
+	pos_2 = line.find_first_not_of("1234567890", pos_3);
+	for (int i = pos_2 - 1; i > pos_3 - 1; i--) {
 		NewID += MakeNumber(line[i])*pow(10, pos_2 - 1 - i);
 	}
 	return NewID;

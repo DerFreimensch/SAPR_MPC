@@ -11,3 +11,5 @@ int MakeNumber(char c);
 void printToRtfDig(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString &station);
 void printToRtfAn(std::list<CAnSensor> &SensorArray, CString &nameRTF, CString &station);
 std::string O2A(std::string &line);
+std::string A2O(std::string &line);
+BOOL IsRight(std::string &line);
