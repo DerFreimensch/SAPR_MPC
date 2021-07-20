@@ -127,12 +127,16 @@ BOOL CSAPRMPCDlg::OnInitDialog()
 	//  если главное окно приложения не является диалоговым
 	SetIcon(m_hIcon, TRUE);			// Крупный значок
 	SetIcon(m_hIcon, FALSE);		// Мелкий значок
-
+	
 	// TODO: добавьте дополнительную инициализацию
 	((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
 	((CButton *)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
-
-
+	UpdateData(TRUE);
+	CString it;
+	GetModuleFileName(NULL, it.GetBufferSetLength(MAX_PATH), MAX_PATH);
+	int pos = it.ReverseFind('\\');
+	sensor = it.Left(pos + 1);
+	UpdateData(FALSE);
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
 
@@ -291,5 +295,7 @@ void CSAPRMPCDlg::OnBnClickedRadio3()
 void CSAPRMPCDlg::OnBnClickedCreateConfig()
 {
 	CSensorChoise SensorDialog(m_SensorData, this);
+	//HWND hvnd = GetSafeHwnd();
+	//::ShowWindow(hvnd, 0);
 	SensorDialog.DoModal();
 }

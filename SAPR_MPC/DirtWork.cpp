@@ -8,6 +8,7 @@
 #include <codecvt>
 #include <locale>
 #include <vector>
+#include "CInfoBox.h"
 
 
 std::list<CAnSensor>SensorArrayAn;
@@ -16,11 +17,16 @@ std::list<CDigSensor>SensorArrayDig;
 
 
 void readfile(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze, BOOL &An) {
-	CString FileName;
-	if (An)  FileName = makeAn(NameConfig, NameRTF, station, SimpAnalyze);
-	else  FileName = makeDig(NameConfig, NameRTF, station, SimpAnalyze);
-	if (An) printToRtfAn(SensorArrayAn, FileName, station);
-	else printToRtfDig(SensorArrayDig, FileName, station);
+	int flag;
+	if (An)  flag = makeAn(NameConfig, NameRTF, station, SimpAnalyze);
+	else  flag = makeDig(NameConfig, NameRTF, station, SimpAnalyze);
+	if (flag == 0 || flag == 2) {
+		if (An) printToRtfAn(SensorArrayAn, NameRTF, station);
+		else printToRtfDig(SensorArrayDig, NameRTF, station);
+	}
+	else if (flag == 1) {
+		printToRtfAsOneBit(SensorArrayDig, NameRTF, station);
+	}
 	SensorArrayDig.erase(SensorArrayDig.begin(), SensorArrayDig.end());
 	SensorArrayAn.erase(SensorArrayAn.begin(), SensorArrayAn.end());
 }
@@ -40,6 +46,10 @@ int MakeNumber(char c) {
 }
 
 void printToRtfDig(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString &station) {
+	CString FileName;
+	FileName = nameRTF + '\\' + station;
+	FileName += L" Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ.rtf";
+	nameRTF = FileName;
 	setlocale(LC_ALL, "Russian");
 	std::ofstream output(nameRTF);
 	CT2CA pszConvertedAnsiString(station);
@@ -78,6 +88,10 @@ void printToRtfDig(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString
 }
 
 void printToRtfAn(std::list<CAnSensor> &SensorArray, CString &nameRTF, CString &station) {
+	CString FileName;
+	FileName = nameRTF + '\\' + station;
+	FileName += L" Перечень аналоговых данных АПК-ДК для передачи в МПЦ-ЭЛ.rtf";
+	nameRTF = FileName;
 	setlocale(LC_ALL, "Russian");
 	std::ofstream output(nameRTF);
 	CT2CA pszConvertedAnsiString(station);
@@ -121,18 +135,65 @@ void printToRtfAn(std::list<CAnSensor> &SensorArray, CString &nameRTF, CString &
 	ShellExecute(0, L"open", nameRTF, 0, L"", SW_SHOW);
 }
 
-CString makeDig(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze) {
+void printToRtfAsOneBit(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString &station) {
 	CString FileName;
-	FileName = NameRTF + '\\' + station;
+	FileName = nameRTF + '\\' + station;
 	FileName += L" Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ.rtf";
+	nameRTF = FileName;
+	setlocale(LC_ALL, "Russian");
+	std::ofstream output(nameRTF);
+	CT2CA pszConvertedAnsiString(station);
+	std::string out = (pszConvertedAnsiString);
+	output << "{\\rtf1 \n\\par";
+	output << "{\\viewkind4 \\uc1 \\pard \\sa200 \\sl276 \\slmult1 \\qc \\b Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ";
+	output << '(' << out << ')';
+	output << "\\par}" << std::endl;
+	output << "\\trowd \\trql \\trgaph108 \\trrh280 \\trleft36 \\clbrdrt \\brdrth \\clbrdrl \\brdrth \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx1036 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx4236 \\clbrdrt \\brdrth \\clbrdrl\\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx8536 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx10036 \\pard \\intbl";
+	output << " \\qc№";
+	output << "\\cell \\pard \\intbl";
+	output << " \\qcНазвание объекта";
+	output << "\\cell \\pard \\intbl";
+	output << " \\qcТип объекта";
+	output << "\\cell \\pard \\intbl";
+	output << " \\qc№ датчика в массиве";
+	output << "\\cell \\pard \\intbl \\row \n";
+	for (const auto &elem : SensorArray) {
+		if (elem.GetID() == 0) continue;
+		output << "\\trowd \\trql \\trgaph108 \\trrh280 \\trleft36 \\clbrdrt \\brdrth \\clbrdrl \\brdrth \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx1036 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx4236 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx8536 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx10036 \\pard \\intbl \\qc ";
+		output << elem.GetID();
+		output << "\\cell \\pard \\intbl \\qc ";
+		output << elem.GetName();
+		output << "\\cell \\pard \\intbl ";
+		output << elem.GetType();
+		output << "\\cell \\pard \\intbl \\qc ";
+		output << elem.GetID()-1;
+		output << "\\cell \\pard \\intbl \\row\n";
+	}
+	output << "\\pard }";
+	output.close();
+
+	ShellExecute(0, L"open", nameRTF, 0, L"", SW_SHOW);
+}
+
+int makeDig(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze) {
 	setlocale(LC_ALL, "Russian");
 	std::ifstream config(NameConfig);
 	std::string line;
+	int flag= 0;
 	if (config.is_open()) {
 		CDigSensor node;
 		SensorArrayDig.push_back(node);
 		while (getline(config, line)) {
 			line = O2A(line);
+			if (line.find("$Bits_number") != -1) {
+				flag = line[line.find_first_of("12")]-48;
+				std::string it;
+				it = std::to_string(flag);
+				CString its (it.c_str());
+				its += ": Количесвто битов на датчик";
+				if (AfxMessageBox(its, MB_OKCANCEL) == IDCANCEL) return 4;
+				else continue;
+			}
 			if (SensorDescribe(line) && IsRight(line)) {
 				CDigSensor node;
 				node.MakeSensor(line, SimpAnalyze);
@@ -144,21 +205,22 @@ CString makeDig(CString &NameConfig, CString &NameRTF, CString &station, BOOL &S
 			}
 		}
 	}
-	return FileName;
+	return flag;
 }
 
-CString makeAn(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze) {
-	CString FileName;
-	FileName = NameRTF + '\\' + station;
-	FileName += L" Перечень аналоговых данных АПК-ДК для передачи в МПЦ-ЭЛ.rtf";
+int makeAn(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAnalyze) {
 	setlocale(LC_ALL, "Russian");
 	std::ifstream config(NameConfig);
 	std::string line;
+	int flag =0;
 	if (config.is_open()) {
 		CAnSensor node;
 		SensorArrayAn.push_back(node);
 		while (getline(config, line)) {
 			line = O2A(line);
+			if (line.find("$Bits_number") != -1) {
+				flag = line[line.find_first_of("12")];
+			}
 			if (SensorDescribe(line) && IsRight(line)) {
 				CAnSensor node;
 				node.MakeSensor(line, SimpAnalyze);
@@ -170,7 +232,7 @@ CString makeAn(CString &NameConfig, CString &NameRTF, CString &station, BOOL &Si
 			}
 		}
 	}
-	return FileName;
+	return flag;
 }
 
 std::string O2A(std::string &line) {
