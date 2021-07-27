@@ -28,14 +28,14 @@ int CDigSensor::IDFind(std::string &line) {
 
 std::string CDigSensor::simpleMake(std::string &line) {
 	int pos_1;
-	pos_1 = line.find("//") + 3;
+	pos_1 = line.find_first_not_of("/ ", line.find("//"));
 	if (line.find("信桥新") != -1) return "信桥新";
 	return line.substr(pos_1);
 }
 std::string CDigSensor::NameFind(std::string &line) {
 	if (line.find("信桥新") != -1) return "信桥新";
 	int pos_1, pos_2;
-	pos_1 = line.find("//") + 3;
+	pos_1 = line.find_first_not_of("/ ", line.find("//"));
 	pos_2 = line.find(": ", pos_1);
 	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
 	return line.substr(pos_1, pos_2-pos_1);
@@ -43,7 +43,7 @@ std::string CDigSensor::NameFind(std::string &line) {
 std::string CDigSensor::TypeFind(std::string &line) {
 	if (line.find("信桥新") != -1) return "信桥新";
 	int pos_1, pos_2;
-	pos_1 = line.find("//") + 3;
+	pos_1 = line.find_first_not_of("/ ", line.find("//"));
 	pos_2 = line.find(": ", pos_1);
 	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
 	return line.substr(pos_2+1);

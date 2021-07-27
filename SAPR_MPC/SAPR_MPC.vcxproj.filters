@@ -54,6 +54,9 @@
     <ClInclude Include="CInfoBox.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="StartWindow.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SAPR_MPC.cpp">
@@ -84,6 +87,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="CInfoBox.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="StartWindow.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

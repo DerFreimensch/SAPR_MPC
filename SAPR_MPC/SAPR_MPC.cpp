@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "SAPR_MPC.h"
 #include "SAPR_MPCDlg.h"
+#include "StartWindow.h"
 
 
 #ifdef _DEBUG
@@ -74,7 +75,7 @@ BOOL CSAPR_MPCApp::InitInstance()
 	// например на название организации
 	SetRegistryKey(_T("Локальные приложения, созданные с помощью мастера приложений"));
 
-	CSAPRMPCDlg dlg;
+	StartWindow dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
