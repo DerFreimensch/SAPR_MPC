@@ -16,5 +16,6 @@ public:
 private:
 	std::list<CString> c_sensorList;
 	std::list<CString> c_choiseSensor;
+
 };
 

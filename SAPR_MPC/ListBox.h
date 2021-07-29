@@ -29,4 +29,5 @@ public:
 	afx_msg void OnLbnSelchangeList1();
 	afx_msg void OnBnClickedUpdate();
 	afx_msg void OnBnClickedSave();
+	CButton Save;
 };

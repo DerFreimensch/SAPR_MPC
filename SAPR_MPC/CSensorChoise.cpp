@@ -38,8 +38,8 @@ void CSensorChoise::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CSensorChoise, CDialogEx)
 	ON_BN_CLICKED(IDC_MFCBUTTON2, &CSensorChoise::OnBnClickedTakeSensor)
-	ON_BN_CLICKED(IDC_MFCBUTTON1, &CSensorChoise::OnBnClickedMakeConfig)
 	ON_EN_CHANGE(IDC_MFCEDITBROWSE3, &CSensorChoise::OnEnChangeFailureFile)
+	ON_EN_CHANGE(IDC_RICHEDIT21, &CSensorChoise::OnEnChangeDevice)
 END_MESSAGE_MAP()
 
 
@@ -57,15 +57,24 @@ void CSensorChoise::OnBnClickedTakeSensor()
 }
 
 
-void CSensorChoise::OnBnClickedMakeConfig()
-{
-	// TODO: добавьте свой код обработчика уведомлений
-}
 
 
 void CSensorChoise::OnEnChangeFailureFile()
 {
 	UpdateData(TRUE);
 	ConfigFolder = SensorFile.Left(SensorFile.ReverseFind('\\'))+L"\\config.txt";
+	if (DeviceName != L"" && SensorFile != L"")
+		ChoiseSensor.EnableWindow(TRUE);
+	else
+		ChoiseSensor.EnableWindow(FALSE);
+	UpdateData(FALSE);
+}
+
+void CSensorChoise::OnEnChangeDevice() {
+	UpdateData(TRUE);
+	if (DeviceName != L"" && SensorFile != L"")
+		ChoiseSensor.EnableWindow(TRUE);
+	else
+		ChoiseSensor.EnableWindow(FALSE);
 	UpdateData(FALSE);
 }

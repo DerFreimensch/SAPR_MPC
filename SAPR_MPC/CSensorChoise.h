@@ -26,10 +26,10 @@ public:
 	CString SensorFile;
 	CString ConfigFolder;
 	CString DeviceName;
+	afx_msg void OnEnChangeDevice();
 private:
 	CData &m_Data;
 	int h = 0;
 public:
-	afx_msg void OnBnClickedMakeConfig();
 	afx_msg void OnEnChangeFailureFile();
 };

@@ -29,6 +29,7 @@ void ListBox::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_listBox);
+	DDX_Control(pDX, IDC_BUTTON2, Save);
 }
 
 
@@ -57,6 +58,7 @@ void ListBox::OnLbnSelchangeList1()
 void ListBox::OnBnClickedUpdate()
 {
 	LoadListBox();
+	Save.EnableWindow(TRUE);
 }
 
 
