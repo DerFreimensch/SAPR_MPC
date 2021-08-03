@@ -18,6 +18,7 @@
 #define IDD_DIALOG2                     142
 #define IDD_INFOBOX                     142
 #define IDC_BUTTON1                     1000
+#define IDC_BUTTON3                     1001
 #define IDC_RADIO1                      1009
 #define IDC_RADIO2                      1010
 #define IDC_EDIT1                       1011
