@@ -16,7 +16,14 @@ IMPLEMENT_DYNAMIC(StartWindow, CDialogEx)
 StartWindow::StartWindow(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_STARTWINDOW, pParent)
 {
+	Icon = AfxGetApp()->LoadIcon(IDI_ICON1);
+}
 
+BOOL StartWindow::OnInitDialog() {
+	CDialogEx::OnInitDialog();
+	SetIcon(Icon, TRUE);			
+	SetIcon(Icon, FALSE);
+	return TRUE;
 }
 
 

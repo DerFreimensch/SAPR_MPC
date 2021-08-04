@@ -19,6 +19,8 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
 	DECLARE_MESSAGE_MAP()
+	HICON Icon;
+	BOOL OnInitDialog();
 private:
 	CData m_SensorData;
 
