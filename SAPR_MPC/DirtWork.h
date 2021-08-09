@@ -14,3 +14,4 @@ void printToRtfAsOneBit(std::list<CDigSensor> &SensorArray, CString &nameRTF, CS
 std::string O2A(std::string &line);
 std::string A2O(std::string &line);
 BOOL IsRight(std::string &line);
+CString Translate(CString line);

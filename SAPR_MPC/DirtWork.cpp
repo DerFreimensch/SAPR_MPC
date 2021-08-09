@@ -56,7 +56,7 @@ void printToRtfDig(std::list<CDigSensor> &SensorArray, CString &nameRTF, CString
 	std::string out = (pszConvertedAnsiString);
 	output << "{\\rtf1 \n\\par";
 	output << "{\\viewkind4 \\uc1 \\pard \\sa200 \\sl276 \\slmult1 \\qc \\b Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ";
-	output << '(' << out << ')';
+	output << ' (' << out << ')';
 	output << "\\par}" << std::endl;
 	output << "\\trowd \\trql \\trgaph108 \\trrh280 \\trleft36 \\clbrdrt \\brdrth \\clbrdrl \\brdrth \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx1036 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx3536 \\clbrdrt \\brdrth \\clbrdrl\\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx7036 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx10036 \\pard \\intbl";
 	output << " \\qc№";
@@ -98,7 +98,7 @@ void printToRtfAn(std::list<CAnSensor> &SensorArray, CString &nameRTF, CString &
 	std::string out = (pszConvertedAnsiString);
 	output << "{\\rtf1 \n \\par ";
 	output << "{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\bПеречень аналоговых данных АПК-ДК для передачи в МПЦ-ЭЛ ";
-	output << '(' << out << ')';
+	output << ' (' << out << ')';
 	output << "\\par}" << std::endl;
 	output << "\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3336\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx5636 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx6836\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx8636\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx9936\\pard\\intbl";
 	output << "\\qc№";
@@ -146,7 +146,7 @@ void printToRtfAsOneBit(std::list<CDigSensor> &SensorArray, CString &nameRTF, CS
 	std::string out = (pszConvertedAnsiString);
 	output << "{\\rtf1 \n\\par";
 	output << "{\\viewkind4 \\uc1 \\pard \\sa200 \\sl276 \\slmult1 \\qc \\b Перечень дискретных данных АПК-ДК для передачи в МПЦ-ЭЛ";
-	output << '(' << out << ')';
+	output << ' (' << out << ')';
 	output << "\\par}" << std::endl;
 	output << "\\trowd \\trql \\trgaph108 \\trrh280 \\trleft36 \\clbrdrt \\brdrth \\clbrdrl \\brdrth \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx1036 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx4236 \\clbrdrt \\brdrth \\clbrdrl\\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx8536 \\clbrdrt \\brdrth \\clbrdrl \\brdrdb \\clbrdrb \\brdrdb \\clbrdrr \\brdrdb \\cellx10036 \\pard \\intbl";
 	output << " \\qc№";
@@ -234,13 +234,13 @@ int makeAn(CString &NameConfig, CString &NameRTF, CString &station, BOOL &SimpAn
 	}
 	return flag;
 }
-
 std::string O2A(std::string &line) {
 	char *ex = (char*)alloca(strlen(line.c_str()) + 1);
 	OemToAnsi(line.c_str(), ex);
 	line = ex;
 	return line;
 }
+
 std::string A2O(std::string &line) {
 	char *ex = (char*)alloca(strlen(line.c_str()) + 1);
 	AnsiToOem(line.c_str(), ex);
@@ -257,4 +257,70 @@ BOOL IsRight(std::string &line) {
 		else return false;
 	}
 	return true;
+}
+
+CString Translate(CString line) {
+	char mas[44][2] = { 
+	{'a', 'а'},
+	{'b','б'},
+	{'c','ц'},
+	{'d','д'},
+	{'e','е'},
+	{'f','ф'},
+	{'g','ж'},
+	{'h','х'},
+	{'i','ш'},
+	{'k','к'},
+	{'l','л'},
+	{'m','м'},
+	{'n','н'},
+	{'o','о'},
+	{'p','п'},
+	{'r','р'},
+	{'s','с'},
+	{'t','т'},
+	{'u','у'},
+	{'v','в'},
+	{'w','в'},
+	{'z','з'},
+	{'A','А'},
+	{'B','Б'},
+	{'C','Ц'},
+	{'D','Д'},
+	{'E','Е'},
+	{'F','Ф'},
+	{'G','Ж'},
+	{'H','Х'},
+	{'I','И'},
+	{'K','К'},
+	{'L','Л'},
+	{'M','М'},
+	{'N','Н'},
+	{'O','О'},
+	{'P','П'},
+	{'R','Р'},
+	{'S','С'},
+	{'T','Т'},
+	{'U','У'},
+	{'V','В'},
+	{'W','В'},
+	{'Z','З'}
+	};
+	CT2CA pszConvertedAnsiString(line);
+	std::string newline(pszConvertedAnsiString);
+	if (newline.find_first_of("абвгдеёжзиклмнопрстуфхцшщьыъэюя")!= -1) {
+		return line;
+	}
+	else {
+		for (int i = 0; i < newline.size(); i++) {
+			for (int k = 0; k < 44; k++) {
+				if (mas[k][0] == line.GetAt(i)) {
+					newline[i] = mas[k][1];
+					continue;
+				}
+			}
+		}
+		line = newline.c_str();
+		return line;
+	}
 }

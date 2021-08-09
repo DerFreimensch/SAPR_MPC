@@ -259,13 +259,15 @@ void CSAPRMPCDlg::OnEnChangeMfceditbrowse1()
 	// функция и вызов CRichEditCtrl().SetEventMask()
 	// with the ENM_CHANGE flag ORed into the mask.
 	UpdateData(TRUE);
+	if (station == L"") 
+		station = Translate(sensor.Mid(sensor.ReverseFind('\\')+1, sensor.ReverseFind('.')-1 - sensor.ReverseFind('\\')));
+	if (rtf == L"") {
+		rtf = sensor.Left(sensor.ReverseFind('\\'));
+	}
 	if (station != L"" && sensor != L"")
 		make_button.EnableWindow(TRUE);
 	else
 		make_button.EnableWindow(FALSE);
-	if (rtf == L"") {
-		rtf = sensor.Left(sensor.ReverseFind('\\'));
-	}
 	UpdateData(FALSE);
 	// TODO:  Добавьте код элемента управления
 }
