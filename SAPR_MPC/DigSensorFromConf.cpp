@@ -36,10 +36,10 @@ std::string CDigSensor::NameFind(std::string &line) {
 	if (line.find("信桥新") != -1) return "信桥新";
 	int pos_1, pos_2;
 	pos_1 = line.find_first_not_of("/ ", line.find("//"));
-	pos_2 = line.find(": ", pos_1);
+	pos_2 = line.find_last_of("(");
+	if (pos_2 != -1) return line.substr(pos_2 + 1, line.find_last_of(")")-pos_2-1);
 	if (pos_2 == -1) {
-		pos_2 = line.find("(");
-		if (pos_2 != -1) return line.substr(pos_2 + 1, line.find(")")-pos_2-1);
+		pos_2 = line.find(": ", pos_1);
 	}
 	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
 	return line.substr(pos_1, pos_2-pos_1);
@@ -48,12 +48,17 @@ std::string CDigSensor::TypeFind(std::string &line) {
 	if (line.find("信桥新") != -1) return "信桥新";
 	int pos_1, pos_2;
 	pos_1 = line.find_first_not_of("/ ", line.find("//"));
-	pos_2 = line.find(": ", pos_1);
-	if (pos_2 == -1) {
-		pos_2 = line.find_first_of("(", pos_1);
-		if (pos_2 != -1) return line.substr(pos_1, pos_2 - pos_1);
+	pos_2 = line.find_last_of("(");
+	if (pos_2 != -1) {
+		if (line.find_first_of("(", pos_1) != pos_2) {
+			return line.substr(line.find_first_of("(", pos_1) + 1, line.find_first_of(")", pos_1) - line.find_first_of("(", pos_1) - 1);
+		}
+		return line.substr(pos_1, pos_2 - pos_1);
 	}
-		if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
+	if (pos_2 == -1) {
+		pos_2 = line.find(": ", pos_1);
+	}
+	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
 	return line.substr(line.find_first_not_of(" ",pos_2+1));
 }
 void CDigSensor::NumberWrite(int NewID) {
