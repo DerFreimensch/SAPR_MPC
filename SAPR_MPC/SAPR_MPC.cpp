@@ -67,13 +67,16 @@ BOOL CSAPR_MPCApp::InitInstance()
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
 
 	// Стандартная инициализация
-	// Если эти возможности не используются и необходимо уменьшить размер
+	//Если эти возможности не используются и необходимо уменьшить размер
 	// конечного исполняемого файла, необходимо удалить из следующих
 	// конкретных процедур инициализации, которые не требуются
 	// Измените раздел реестра, в котором хранятся параметры
 	// TODO: следует изменить эту строку на что-нибудь подходящее,
 	// например на название организации
 	SetRegistryKey(_T("Локальные приложения, созданные с помощью мастера приложений"));
+	CString path;
+	GetCurrentDirectory(MAX_PATH, path.GetBufferSetLength(MAX_PATH));
+	path.ReleaseBuffer();
 
 	StartWindow dlg;
 	m_pMainWnd = &dlg;

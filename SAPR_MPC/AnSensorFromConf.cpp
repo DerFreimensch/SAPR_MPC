@@ -57,7 +57,6 @@ std::string CAnSensor::NameFind(std::string &line) {
 	pos_1 = line.find("//") + 3;
 	pos_2 = line.find(". ", pos_1);
 	if (pos_2 == -1) pos_2 = line.find_first_of(" ", pos_1);
-	//if (line.find_first_of("UtIPS", pos_2 + 2) != -1) return (line.substr(pos_1, pos_2 - pos_1) + line.substr(pos_2 + 3, line.find('(', pos_2)));
 	return line.substr(pos_1, pos_2 - pos_1);
 }
 

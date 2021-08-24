@@ -78,6 +78,7 @@ void CSAPRMPCDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RADIO2, default_radio_button);
 	//DDX_Radio(pDX, IDC_RADIO4, An);
 	//DDX_Radio(pDX, IDC_RADIO3, Dig);
+	DDX_Control(pDX, IDC_MFCEDITBROWSE1, EditFile);
 }
 
 BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
@@ -85,6 +86,7 @@ BEGIN_MESSAGE_MAP(CSAPRMPCDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CSAPRMPCDlg::OnBnClickedCreate)
+	ON_BN_CLICKED(IDC_BUTTON2, &CSAPRMPCDlg::OnBnClickedUpdate)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_BN_CLICKED(IDC_RADIO1, &CSAPRMPCDlg::OnBnClickedRadio1)
@@ -130,6 +132,7 @@ BOOL CSAPRMPCDlg::OnInitDialog()
 	// TODO: добавьте дополнительную инициализацию
 	((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
 	((CButton *)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
+	
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
 
@@ -190,6 +193,28 @@ void CSAPRMPCDlg::OnBnClickedCreate()
 	readfile(sensor, rtf, station, SimpAnalyze, An);
 	UpdateData(FALSE);
 	// TODO: добавьте свой код обработчика уведомлений
+}
+
+void CSAPRMPCDlg::OnBnClickedUpdate()
+{
+	UpdateData(TRUE);
+	CString sFile, sPath, sNumber;
+	GetModuleFileName(NULL, sFile.GetBufferSetLength(MAX_PATH), MAX_PATH);// поиск пути к файлу
+	int pos = sFile.ReverseFind('\\');
+	sPath = sFile.Left(pos + 1);
+	sensor = sPath;
+	if (station == L"")
+		station = Translate(sensor.Mid(sensor.ReverseFind('\\') + 1, sensor.ReverseFind('.') - 1 - sensor.ReverseFind('\\')));
+	if (rtf == L"") {
+		rtf = sensor.Left(sensor.ReverseFind('\\'));
+	}
+	if (station != L"" && sensor != L"")
+		make_button.EnableWindow(TRUE);
+	else
+		make_button.EnableWindow(FALSE);
+	UpdateData(FALSE);
+	// TODO: добавьте свой код обработчика уведомлений
+
 }
 
 

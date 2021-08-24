@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="AnSensorFromConf.h" />
     <ClInclude Include="CData.h" />
+    <ClInclude Include="CEditBrowse2.h" />
     <ClInclude Include="CInfoBox.h" />
     <ClInclude Include="CSensorChoise.h" />
     <ClInclude Include="DigSensorFromConf.h" />
@@ -205,6 +206,7 @@
   <ItemGroup>
     <ClCompile Include="AnSensorFromConf.cpp" />
     <ClCompile Include="CData.cpp" />
+    <ClCompile Include="CEditBrowse2.cpp" />
     <ClCompile Include="CInfoBox.cpp" />
     <ClCompile Include="CSensorChoise.cpp" />
     <ClCompile Include="DirtWork.cpp" />

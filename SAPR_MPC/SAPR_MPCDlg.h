@@ -4,6 +4,7 @@
 
 #pragma once
 #include "CData.h"
+#include "CEditBrowse2.h"
 
 // Диалоговое окно CSAPRMPCDlg
 class CSAPRMPCDlg : public CDialogEx
@@ -14,7 +15,7 @@ public:
 
 // Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_SAPR_MPC_DIALOG };
+	enum { IDD = IDD_CREATESENSORDESCRIBE };
 #endif
 
 protected:
@@ -33,6 +34,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedCreate();
+	afx_msg void OnBnClickedUpdate();
 	CButton make_button;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -53,4 +55,6 @@ public:
 	afx_msg void OnBnClickedCreateConfig();
 private:
 	CData m_SensorData;
+protected:
+	CEditBrowse2 EditFile;
 };
