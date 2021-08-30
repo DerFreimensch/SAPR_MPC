@@ -213,8 +213,6 @@ void CSAPRMPCDlg::OnBnClickedUpdate()
 	else
 		make_button.EnableWindow(FALSE);
 	UpdateData(FALSE);
-	// TODO: добавьте свой код обработчика уведомлений
-
 }
 
 
@@ -246,15 +244,21 @@ void CSAPRMPCDlg::OnSize(UINT nType, int cx, int cy) {
 
 void CSAPRMPCDlg::OnBnClickedRadio1()
 {
+	UpdateData(TRUE);
 	CompAnalyze = TRUE;
 	SimpAnalyze = FALSE;
+	rtf = sensor.Left(sensor.ReverseFind('\\'));
+	UpdateData(FALSE);
 }
 
 
 void CSAPRMPCDlg::OnBnClickedRadio2()
 {
+	UpdateData(TRUE);
 	CompAnalyze = FALSE;
 	SimpAnalyze = TRUE;
+	rtf = sensor.Left(sensor.ReverseFind('\\'));
+	UpdateData(FALSE);
 }
 
 
@@ -284,11 +288,8 @@ void CSAPRMPCDlg::OnEnChangeMfceditbrowse1()
 	// функция и вызов CRichEditCtrl().SetEventMask()
 	// with the ENM_CHANGE flag ORed into the mask.
 	UpdateData(TRUE);
-	if (station == L"") 
-		station = Translate(sensor.Mid(sensor.ReverseFind('\\')+1, sensor.ReverseFind('.')-1 - sensor.ReverseFind('\\')));
-	if (rtf == L"") {
-		rtf = sensor.Left(sensor.ReverseFind('\\'));
-	}
+	station = Translate(sensor.Mid(sensor.ReverseFind('\\')+1, sensor.ReverseFind('.')-1 - sensor.ReverseFind('\\')));
+	rtf = sensor.Left(sensor.ReverseFind('\\'));
 	if (station != L"" && sensor != L"")
 		make_button.EnableWindow(TRUE);
 	else
@@ -300,14 +301,20 @@ void CSAPRMPCDlg::OnEnChangeMfceditbrowse1()
 
 void CSAPRMPCDlg::OnBnClickedRadio4()
 {
+	UpdateData(TRUE);
 	Dig = FALSE;
 	An = TRUE;
+	rtf = sensor.Left(sensor.ReverseFind('\\'));
+	UpdateData(FALSE);
 }
 
 
 void CSAPRMPCDlg::OnBnClickedRadio3()
 {
+	UpdateData(TRUE);
 	Dig = TRUE;
 	An = FALSE;
+	rtf = sensor.Left(sensor.ReverseFind('\\'));
+	UpdateData(FALSE);
 }
 

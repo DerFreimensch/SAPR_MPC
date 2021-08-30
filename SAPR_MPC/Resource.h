@@ -33,6 +33,8 @@
 #define IDC_LIST1                       1027
 #define IDC_BUTTON2                     1028
 
+
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
